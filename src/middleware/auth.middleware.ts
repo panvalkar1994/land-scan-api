@@ -9,9 +9,9 @@ export function auth(req:Request, res:Response, next:NextFunction){
             message:"UnAuthorized"
         });
     }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, userId)=>{
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, user)=>{
         if(err) return res.status(403).send();
-        req.body.userId = userId;
+        req.body.userId = user?.userId;
         next();
     });
     
