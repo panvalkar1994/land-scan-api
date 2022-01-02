@@ -1,7 +1,6 @@
 import { RegionDto } from "../dto/region.dto";
-import Region from "../model/region.model";
+import Region, { IRegion } from "../model/region.model";
 import { v4 as uuid } from "uuid";
-import { Types } from "mongoose";
 import User from "../model/user.model";
 
 export async function addRegion(regionDto: RegionDto, userId: string) {
@@ -35,7 +34,8 @@ export async function findRegionById(regionId:string) {
 export async function deleteRegionById(userId:string, regionId:string) {
   try {
     const region = await findRegionById(regionId);
-    if(region.owner._id.toString()!==userId){
+    const user = await User.findOne({'userId':userId});
+    if(region.owner._id.toString()!=user?._id){
       throw new Error("UnAuthorized")
     }
     const result = await region.delete();
@@ -43,4 +43,35 @@ export async function deleteRegionById(userId:string, regionId:string) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function updateRegion(regionDto:RegionDto, userId:string, regionId:string) {
+  try {
+    
+    const user = await User.findOne({ userId: userId });
+  
+     let filter = {
+       'regionId':regionId,
+       'owner':user?._id
+     }
+  
+     let update:Partial<IRegion> = {};
+  
+     if(regionDto.name){
+       update.name = regionDto.name;
+     }
+  
+     if(regionDto.description){
+       update.description = regionDto.description;
+     }
+  
+     if(regionDto.location.coordinates.length){
+       update.location = regionDto.location;
+     }
+  
+     const result = await Region.updateOne(filter, update);
+     return result;
+  } catch (error) {
+    throw error;
+  } 
 }

@@ -1,5 +1,5 @@
 import { RegionDto } from "../dto/region.dto";
-import { addRegion, deleteRegionById, findRegionById } from "../repository/region.repository";
+import { addRegion, deleteRegionById, findRegionById, updateRegion } from "../repository/region.repository";
 
 export async function createRegion(regionDto:RegionDto, userId:string) {
     try {
@@ -26,4 +26,8 @@ export async function deleteRegion(userId:string, regionId:string) {
     } catch (error) {
       throw error;
     }
+}
+
+export async function updateRegionHandler(data:RegionDto, userId:string, regionId:string){
+    return updateRegion(data, userId, regionId);
 }
