@@ -1,7 +1,5 @@
-import { mongo, ObjectId } from 'mongoose'
-
 import { RegionDto } from "../dto/region.dto";
-import { addRegion, findRegionById } from "../repository/region.repository";
+import { addRegion, deleteRegionById, findRegionById } from "../repository/region.repository";
 
 export async function createRegion(regionDto:RegionDto, userId:string) {
     try {
@@ -18,5 +16,14 @@ export async function getRegionById(regionId:string) {
         return region;
     } catch (error) {
         throw error;
+    }
+}
+
+export async function deleteRegion(userId:string, regionId:string) {
+    try {
+      const region = deleteRegionById(userId, regionId);
+      return region;
+    } catch (error) {
+      throw error;
     }
 }

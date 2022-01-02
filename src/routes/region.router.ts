@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createRegionHandler, getRegion } from "../controller/region.controller";
+import { createRegionHandler, deleteRegionHandler, getRegion } from "../controller/region.controller";
 import { auth } from "../middleware/auth.middleware";
 
 const router = Router();
@@ -7,6 +7,6 @@ const router = Router();
 router.get("/:id", getRegion);
 router.post("/create", auth, createRegionHandler);
 // router.post('/update/:id', auth, updateRegion);
-// router.delete('/:id',auth, deleteRegion);
+router.delete('/:id',auth, deleteRegionHandler);
 
 export default router;

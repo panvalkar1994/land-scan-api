@@ -31,3 +31,16 @@ export async function findRegionById(regionId:string) {
     throw error;
   }
 }
+
+export async function deleteRegionById(userId:string, regionId:string) {
+  try {
+    const region = await findRegionById(regionId);
+    if(region.owner._id.toString()!==userId){
+      throw new Error("UnAuthorized")
+    }
+    const result = await region.delete();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
