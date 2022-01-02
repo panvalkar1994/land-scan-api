@@ -1,12 +1,12 @@
 import { Point } from "geojson";
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 export interface IRegion{
     regionId:string;
     name:string;
     description:string;
     location:Point, // GeoJson point 
-    ownerId:Schema.Types.ObjectId, // reference to userId
+    owner:Types.ObjectId, // reference to userId
 }
 
 const RegionSchema = new Schema<IRegion>({
@@ -33,11 +33,12 @@ const RegionSchema = new Schema<IRegion>({
             required:true
         }
     },
-    ownerId:{
+    owner:{
         type:Schema.Types.ObjectId, 
         ref:'User'
     }
-
+},{
+    timestamps:true
 })
 
 const Region = model('Region', RegionSchema);
