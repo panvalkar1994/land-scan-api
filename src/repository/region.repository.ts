@@ -19,3 +19,15 @@ export async function addRegion(regionDto: RegionDto, userId: string) {
     throw error;
   }
 }
+
+export async function findRegionById(regionId:string) {
+  try {
+    const region = await Region.findOne({'regionId':regionId})
+    if(!region){
+      throw new Error("Region does not exist")
+    }
+    return region;
+  } catch (error) {
+    throw error;
+  }
+}
